@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Teacher MacBook Onboarding — Google Workspace</title>
+<style>
+  :root{
+    --brand:#0A66C2; --brand-dark:#073E8C; --ink:#1b1f23; --muted:#5b6775;
+    --bg:#ffffff; --soft:#f6f8fb; --card:#fff; --radius:16px; --shadow:0 8px 24px rgba(2,16,40,.08);
+    --ok:#2ea44f; --warn:#d29922;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color:var(--ink);
+       background:linear-gradient(180deg,#f9fbff,#f4f7fb 35%,#eef2f7)}
+  .wrap{max-width:1080px; margin:auto; padding:24px}
+  header{
+    background: radial-gradient(1200px 500px at 20% -20%, #e9f2ff, transparent),
+                radial-gradient(900px 400px at 120% -40%, #e7f9f0, transparent);
+    padding:28px 24px 22px; border-bottom:1px solid #e7ebf0;
+  }
+  .title{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+  .title h1{margin:0; color:var(--brand)}
+  .note{color:var(--muted); font-size:.95rem}
+  .progress{position:relative; margin-top:14px; height:12px; background:#e9eef5; border-radius:999px; overflow:hidden}
+  .progress>div{position:absolute; inset:0 100% 0 0; background:linear-gradient(90deg,var(--brand), #37c); border-radius:999px; transition:inset .5s ease}
+  .cards{display:grid; gap:16px; margin-top:16px}
+  @media (min-width:860px){ .cards{grid-template-columns:1fr 1fr} }
+  .card{background:var(--card); border:1px solid #e7ebf0; border-radius:var(--radius); box-shadow:var(--shadow); padding:18px}
+  .btn{border:1px solid #d5dbe6; background:#fff; border-radius:12px; padding:10px 14px; cursor:pointer; font-weight:700}
+  .btn.primary{background:linear-gradient(180deg,#3e8bff,#2b6adf); color:#fff; border:none}
+  .btn.small{padding:6px 10px; font-weight:600; border-radius:10px}
+  .pill{display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px; background:#eef4ff; color:#0a2c66; font-weight:600; font-size:0.9rem}
+  .badge{display:inline-flex; align-items:center; gap:8px; font-weight:700; color:#0b5; background:#e9f7ef; padding:6px 10px; border-radius:999px}
+  .row{display:flex; gap:12px; flex-wrap:wrap}
+  .hidden{display:none !important}
+
+  .module{border:1px solid #e3e8ef; border-radius:14px; overflow:hidden; background:#fff}
+  .module summary{list-style:none; cursor:pointer; padding:14px 16px; font-weight:700; display:flex; align-items:center; justify-content:space-between; background:linear-gradient(180deg,#fff,#f8fbff)}
+  .module summary::-webkit-details-marker{display:none}
+  .module[open] summary{background:#f1f6ff}
+  .module .content{padding:12px 16px 16px}
+  .locked{opacity:.55; pointer-events:none; filter:grayscale(.3)}
+  .checklist{display:grid; gap:10px; margin:10px 0}
+  .check{display:flex; align-items:flex-start; gap:10px; padding:10px; border-radius:12px; border:1px dashed #dbe3ee; background:#fafcff; transition:background .2s}
+  .check input{margin-top:2px; transform:scale(1.2)}
+  .check.done{background:#f0fbf3; border-color:#cfe9d7}
+  .callout{border-left:6px solid var(--brand); background:#f2f7ff; padding:12px; border-radius:12px; margin:10px 0}
+  .challenge{border-left:6px solid var(--warn); background:#fff8e6; padding:12px; border-radius:12px; margin:10px 0}
+
+  .quiz{border:1px solid #e7ebf0; border-radius:16px; background:#fff; padding:16px}
+  .q{padding:12px; border-radius:12px; border:1px solid #edf1f6; margin-bottom:10px}
+  .q.correct{border-color:#cfe9d7; background:#f0fbf3}
+  .q.wrong{border-color:#f2c0c4; background:#fff1f2}
+  .opt{display:block; padding:8px 10px; border-radius:10px; border:1px solid #e7ebf0; margin:6px 0; cursor:pointer}
+  .result{padding:12px; border-radius:12px; margin-top:12px}
+  .pass{background:#f0fbf3; border:1px solid #cfe9d7}
+  .fail{background:#fff1f2; border:1px solid #f2c0c4}
+
+  .canvas-card{background:#fff; border:1px solid #e7ebf0; border-radius:16px; padding:12px}
+  .awards{display:grid; gap:16px; margin-top:12px}
+  @media (min-width:860px){ .awards{grid-template-columns:1fr 1fr} }
+
+  footer{margin:24px 0 12px; color:var(--muted); font-size:.9rem}
+  .caption{font-size:.92rem; color:#3a485a}
+  .kbd{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; border:1px solid #cfd6e1; background:#fff; border-radius:6px; padding:2px 6px; font-size:0.9rem}
+
+  /* Gestures visuals */
+  .gallery{border:1px solid #e7ebf0; border-radius:14px; padding:12px; background:#fff; display:grid; gap:12px}
+  .gallery.grid-3{grid-template-columns:1fr}
+  @media (min-width:820px){ .gallery.grid-3{grid-template-columns:repeat(3,1fr)}}
+  .gesture{display:flex; flex-direction:column; gap:8px; align-items:center; text-align:center; padding:10px; border:1px dashed #e3e8ef; border-radius:12px}
+  .gesture svg{width:160px; height:120px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="title">
+      <h1>Teacher MacBook Onboarding — Google Workspace</h1>
+      <span class="badge" id="progressLabel">0% complete</span>
+    </div>
+    <div class="progress" aria-label="Progress"><div id="bar"></div></div>
+    <p class="note" style="margin-top:8px">Progress saves only in this browser. Reset anytime below.</p>
+    <div class="row" style="margin-top:8px">
+      <button class="btn" id="resetProgress">Reset progress</button>
+      <a class="btn" href="https://support.apple.com/en-gb/guide/classroom/welcome/web" target="_blank" rel="noopener">Apple Classroom (UK guide)</a>
+      <a class="btn" href="https://picrat.com/picratgen.html" target="_blank" rel="noopener">PICRAT Generator (BETA)</a>
+      <a class="btn" href="https://teachercenter.withgoogle.com/" target="_blank" rel="noopener">Google for Education Training</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <div class="cards">
+    <div class="card">
+      <h2>Before you start</h2>
+      <p>Devices are pre-configured with safeguarding, management profiles and essential apps. If anything looks unusual, contact IT rather than changing core settings.</p>
+      <p class="note">Reference: <strong>MyCognita &gt; Digital Learning &gt; Make Every Click Count</strong> for pedagogy and PICRAT guidance.</p>
+    </div>
+    <div class="card">
+      <h2 class="pill">🎯 Outcomes</h2>
+      <ul>
+        <li>Navigate macOS confidently and present wirelessly.</li>
+        <li>Apply <strong>PICRAT</strong> to plan purposeful learning.</li>
+        <li>Use Apple Classroom to guide and support students.</li>
+        <li>Understand <strong>Apple Intelligence</strong> (privacy-first) and implications.</li>
+        <li>Complete the quiz to unlock your certificate + Cognita badge.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- M1 -->
+  <details class="module" id="m1" open>
+    <summary><span>Module 1: Getting Started 💻</span><span class="pill">Tick all to unlock next</span></summary>
+    <div class="content">
+      <div class="checklist">
+        <label class="check"><input type="checkbox" /> Log in with your Managed Apple ID.</label>
+        <label class="check"><input type="checkbox" /> Explore the Desktop, Dock and Menu Bar.</label>
+        <label class="check"><input type="checkbox" /> Open <strong>System Settings</strong> and review Wi-Fi, Displays and Privacy &amp; Security.</label>
+        <label class="check"><input type="checkbox" /> Open <strong>Google Drive</strong> (drive.google.com or the app) and locate your school folder.</label>
+      </div>
+      <div class="callout"><strong>Wow moment:</strong> Press <span class="kbd">⌘</span> + <span class="kbd">Space</span>, type <code>64*7</code>. Spotlight calculates instantly (also does conversions).</div>
+      <div class="challenge"><strong>Challenge:</strong> Add a fingerprint in <em>Touch ID &amp; Password</em>, then unlock with Touch ID.</div>
+      <details class="card" style="margin-top:10px">
+        <summary><strong>How-tos & help</strong></summary>
+        <ul>
+          <li><a href="https://support.apple.com/guide/mac-help/search-with-spotlight-mchlp1008/mac" target="_blank" rel="noopener">Use Spotlight on Mac</a></li>
+          <li><a href="https://support.google.com/drive/answer/2424384" target="_blank" rel="noopener">Google Drive basics</a></li>
+        </ul>
+      </details>
+    </div>
+  </details>
+
+  <!-- M2 -->
+  <details class="module locked" id="m2">
+    <summary><span>Module 2: Core Apps &amp; Workflows 🛠️</span><span class="pill">Locked</span></summary>
+    <div class="content">
+      <div class="cards">
+        <div class="card">
+          <h3>Essentials</h3>
+          <ul>
+            <li><strong>Finder</strong>: navigate, search (<span class="kbd">⌘</span><span class="kbd">F</span>), tags, Quick Look (<span class="kbd">Space</span>).</li>
+            <li><strong>Trackpad</strong>: two-finger scroll, pinch to zoom, three-finger swipe between spaces.</li>
+            <li><strong>Pages / Keynote / Numbers</strong>: create, share, collaborate.</li>
+            <li><strong>Safari</strong>: Tab Groups for classes; Reader View for clarity.</li>
+            <li><strong>AirPlay</strong>: mirror to Apple TV for wireless presenting.</li>
+          </ul>
+          <p><strong>Screen recording:</strong> <span class="kbd">⌘</span>+<span class="kbd">Shift</span>+<span class="kbd">5</span> → choose area; enable mic under Options.</p>
+          <div class="row">
+            <button class="btn small" data-copy="⌘+Shift+5">Copy shortcut: ⌘+Shift+5</button>
+            <a class="btn small" href="https://support.apple.com/guide/mac-help/take-a-screenshot-mh26782/mac" target="_blank" rel="noopener">Apple how-to</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Gestures (visual)</h3>
+          <div class="gallery grid-3">
+            <!-- Two-finger scroll -->
+            <div class="gesture">
+              <svg viewBox="0 0 200 120" aria-label="Two-finger scroll">
+                <rect x="10" y="6" width="180" height="108" rx="12" fill="#eef4ff" stroke="#cfd6e1"/>
+                <circle cx="92" cy="64" r="12" fill="#bbb"/>
+                <circle cx="112" cy="64" r="12" fill="#bbb"/>
+                <defs><marker id="arrowV" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="#0A66C2"/></marker></defs>
+                <path d="M102 30 L102 50" stroke="#0A66C2" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowV)"/>
+                <path d="M102 98 L102 78" stroke="#0A66C2" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowV)"/>
+              </svg>
+              <small>Two-finger scroll</small>
+            </div>
+            <!-- Three-finger swipe -->
+            <div class="gesture">
+              <svg viewBox="0 0 200 120" aria-label="Three-finger swipe">
+                <rect x="10" y="6" width="180" height="108" rx="12" fill="#eef4ff" stroke="#cfd6e1"/>
+                <circle cx="84" cy="74" r="10" fill="#bbb"/>
+                <circle cx="102" cy="74" r="10" fill="#bbb"/>
+                <circle cx="120" cy="74" r="10" fill="#bbb"/>
+                <defs><marker id="arrowH" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="#0A66C2"/></marker></defs>
+                <path d="M50 44 L150 44" stroke="#0A66C2" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowH)"/>
+              </svg>
+              <small>Three-finger swipe (spaces)</small>
+            </div>
+            <!-- Pinch to zoom -->
+            <div class="gesture">
+              <svg viewBox="0 0 200 120" aria-label="Pinch to zoom">
+                <rect x="10" y="6" width="180" height="108" rx="12" fill="#eef4ff" stroke="#cfd6e1"/>
+                <circle cx="90" cy="60" r="10" fill="#bbb"/>
+                <circle cx="120" cy="60" r="10" fill="#bbb"/>
+                <path d="M90 60 L70 40 M120 60 L140 40" stroke="#0A66C2" stroke-width="4" stroke-linecap="round"/>
+              </svg>
+              <small>Pinch to zoom</small>
+            </div>
+          </div>
+          <div class="row" style="margin-top:8px">
+            <a class="btn small" href="https://support.apple.com/102482" target="_blank" rel="noopener">All Multi-Touch gestures</a>
+            <a class="btn small" href="https://support.apple.com/guide/mac-help/change-trackpad-settings-mchlp1226/mac" target="_blank" rel="noopener">Trackpad settings</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- M3 -->
+  <details class="module locked" id="m3">
+    <summary><span>Module 3: Collaboration &amp; Apple Classroom 👥</span><span class="pill">Locked</span></summary>
+    <div class="content">
+      <p>Apple Classroom helps guide learning, share resources and maintain focus.</p>
+      <ul>
+        <li>Create a test class and add sample students/devices.</li>
+        <li>Practise <em>View Screens</em>, <em>Open App</em>, <em>Lock</em>, and share links or documents.</li>
+        <li>Discuss routines and expectations for attention.</li>
+      </ul>
+      <p><a href="https://support.apple.com/en-gb/guide/classroom/welcome/web" target="_blank" rel="noopener">Learn more about Apple Classroom (UK guide)</a></p>
+      <div class="checklist">
+        <label class="check"><input type="checkbox" /> Create a class in Apple Classroom.</label>
+        <label class="check"><input type="checkbox" /> Use <em>Open App</em> to start a task.</label>
+        <label class="check"><input type="checkbox" /> Share a web link with your class.</label>
+      </div>
+    </div>
+  </details>
+
+  <!-- M4 -->
+  <details class="module locked" id="m4">
+    <summary><span>Module 4: Apple Intelligence (AI) 🤖</span><span class="pill">Locked</span></summary>
+    <div class="content">
+      <p><strong>Why it matters:</strong> Apple’s privacy-first approach to generative AI and on-device intelligence supports future-ready workflows whilst protecting student data.</p>
+      <ul>
+        <li><strong>On-device by default:</strong> Many tasks run locally to minimise data sharing.</li>
+        <li><strong>Private Cloud Compute:</strong> When cloud is needed, processing is designed to be ephemeral and verifiable.</li>
+        <li><strong>Teacher workflow:</strong> Summarise notes, draft instructions, refine resources—always review output critically.</li>
+        <li><strong>Student workflow:</strong> Scaffold drafting, brainstorm responsibly, and support accessibility—without replacing thinking.</li>
+      </ul>
+      <div class="callout"><strong>Future-proofing:</strong> AI capability was a key factor in choosing Macs—balancing performance, classroom suitability and data privacy in education.</div>
+      <div class="checklist">
+        <label class="check"><input type="checkbox" /> Identify one admin task Apple Intelligence could streamline.</label>
+        <label class="check"><input type="checkbox" /> Note one student activity where AI supports (not replaces) thinking.</label>
+      </div>
+    </div>
+  </details>
+
+  <!-- M5 -->
+  <details class="module locked" id="m5">
+    <summary><span>Module 5: Pedagogy &amp; PICRAT 📚</span><span class="pill">Locked</span></summary>
+    <div class="content">
+      <p>Apply the <strong>PICRAT</strong> model to aim beyond digital substitution.</p>
+      <ul>
+        <li><em>Replacement / Passive</em>: type a report in Pages instead of handwriting.</li>
+        <li><em>Amplification / Interactive</em>: live data capture in Numbers with charts.</li>
+        <li><em>Transformation / Creative</em>: student-authored multimedia in Keynote with peer feedback.</li>
+      </ul>
+      <p>Explore: <a href="https://picrat.com" target="_blank" rel="noopener">picrat.com</a> and the <a href="https://picrat.com/picratgen.html" target="_blank" rel="noopener">PICRAT Generator (BETA)</a>.</p>
+      <p class="note">For school guidance see <strong>MyCognita &gt; Digital Learning &gt; Make Every Click Count</strong>.</p>
+      <div class="checklist">
+        <label class="check"><input type="checkbox" /> Pick one upcoming lesson and classify the digital use with PICRAT.</label>
+        <label class="check"><input type="checkbox" /> Redesign to move one step “up and right”.</label>
+      </div>
+    </div>
+  </details>
+
+  <!-- M6: Google Workspace -->
+  <details class="module locked" id="m6">
+    <summary><span>Module 6: The Power Duo — Mac + Google Workspace 🚀</span><span class="pill">Locked</span></summary>
+    <div class="content">
+      <p>Use the <strong>best of Apple and Google together</strong>: your Mac provides creativity and speed, whilst Google Workspace keeps learning organised and collaborative.</p>
+      <div class="checklist">
+        <label class="check"><input type="checkbox" /> Open <strong>Google Classroom</strong> and join your class.</label>
+        <label class="check"><input type="checkbox" /> Find the <em>Classwork</em> page and view a sample assignment.</label>
+        <label class="check"><input type="checkbox" /> Upload a test file to <strong>Google Drive</strong> and attach it to an assignment.</label>
+        <label class="check"><input type="checkbox" /> Co-edit a <strong>Google Doc</strong> with a colleague and leave a comment.</label>
+      </div>
+      <div class="callout"><strong>Tip:</strong> Save resources in <strong>Google Drive</strong> so they’re backed up and accessible anywhere — avoid Desktop/Downloads.</div>
+      <div class="challenge"><strong>Challenge:</strong> Start a short <strong>Google Meet</strong> and use <em>Present</em> to share your Keynote (window mode) on Mac.</div>
+      <details class="card" style="margin-top:10px"><summary><strong>Helpful links</strong></summary>
+        <ul>
+          <li><a href="https://support.google.com/edu/classroom#topic=10298088" target="_blank" rel="noopener">Google Classroom Help (Teachers)</a></li>
+          <li><a href="https://support.google.com/drive/answer/2424384" target="_blank" rel="noopener">Google Drive basics</a></li>
+          <li><a href="https://support.google.com/docs/answer/7068618" target="_blank" rel="noopener">Collaborate in Google Docs</a></li>
+          <li><a href="https://support.google.com/meet" target="_blank" rel="noopener">Google Meet Help</a></li>
+        </ul>
+      </details>
+    </div>
+  </details>
+
+  <!-- M7 -->
+  <details class="module locked" id="m7">
+    <summary><span>Module 7: Assessment, Apple Teacher &amp; Certificates ✅</span><span class="pill">Locked</span></summary>
+    <div class="content">
+      <div class="cards">
+        <div class="card">
+          <div class="quiz">
+            <h3>Quick Quiz (5 questions)</h3>
+            <div id="quizWrap"></div>
+            <div class="row" style="margin-top:8px">
+              <button class="btn primary" id="submitQuiz" disabled>Submit quiz</button>
+              <button class="btn" id="resetQuiz">Reset quiz</button>
+            </div>
+            <div id="quizResult" class="result" style="display:none"></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Keep going: Apple Teacher 🍎</h3>
+          <p>Build confidence with self-paced modules and earn badges.</p>
+          <p><a href="https://education.apple.com/learning-center/T006360A-en_US" target="_blank" rel="noopener">Start Apple Teacher</a></p>
+          <p class="note">Set a goal to complete the Mac badges this term and share in appraisal.</p>
+        </div>
+      </div>
+
+      <div class="awards" id="awards" style="display:none">
+        <div class="canvas-card">
+          <h3>Download your Certificate</h3>
+          <canvas id="certCanvas" width="1000" height="700" style="width:100%;border:1px solid #e7ebf0;border-radius:12px"></canvas>
+          <div class="row"><button class="btn primary" id="dlCert">Download Certificate (PNG)</button></div>
+        </div>
+        <div class="canvas-card">
+          <h3>Download your Cognita-themed Badge</h3>
+          <canvas id="badgeCanvas" width="800" height="800" style="width:100%;border:1px solid #e7ebf0;border-radius:12px"></canvas>
+          <div class="row"><button class="btn primary" id="dlBadge">Download Badge (PNG)</button></div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <footer>Teacher-facing onboarding • UK English • Progress saves locally • © Your School / Trust</footer>
+</main>
+
+<script>
+/* ---------- Config & Keys (separate from MS version) ---------- */
+const modules = ["m1","m2","m3","m4","m5","m6","m7"];
+const STORAGE = {
+  progress: "teacherOnboard.google.v1.progress",
+  quiz:     "teacherOnboard.google.v1.quiz"
+};
+const $  = (sel, ctx=document)=>ctx.querySelector(sel);
+const $$ = (sel, ctx=document)=>Array.from(ctx.querySelectorAll(sel));
+
+/* ---------- State ---------- */
+function loadState(){ try{ return JSON.parse(localStorage.getItem(STORAGE.progress)) || {} }catch{ return {} } }
+function saveState(s){ localStorage.setItem(STORAGE.progress, JSON.stringify(s)); }
+function fromDOM(){
+  const s = { ticks:{}, quizPassed: (loadState().quizPassed || false) };
+  modules.forEach(id=>{
+    const mod = document.getElementById(id);
+    if(!mod) return;
+    s.ticks[id] = $$(".checklist input", mod).map(cb=>cb.checked);
+  });
+  return s;
+}
+function toDOM(s){
+  if(!s||!s.ticks) return;
+  modules.forEach(id=>{
+    const mod = document.getElementById(id);
+    if(!mod) return;
+    const arr = s.ticks[id] || [];
+    $$(".checklist input", mod).forEach((cb, j)=>{
+      cb.checked = !!arr[j];
+      cb.closest(".check").classList.toggle("done", cb.checked);
+    });
+  });
+}
+
+/* ---------- Progress ---------- */
+function pctComplete(){
+  const total = $$(".checklist input").length + 1; // +1 for quiz pass
+  const done  = $$(".checklist input:checked").length + (loadState().quizPassed ? 1 : 0);
+  return Math.round(100*done/Math.max(total,1));
+}
+function updateProgressUI(){
+  const pct = pctComplete();
+  $("#bar").style.inset = `0 ${100-pct}% 0 0`;
+  $("#progressLabel").textContent = `${pct}% complete`;
+}
+
+/* ---------- Lock / Unlock ---------- */
+function evalLocks(){
+  for(let i=0; i<modules.length-1; i++){
+    const mod  = document.getElementById(modules[i]);
+    const next = document.getElementById(modules[i+1]);
+    const allTicked = $$(".checklist input", mod).every(cb=>cb.checked);
+    if(allTicked){
+      next.classList.remove("locked");
+      $("summary .pill", next).textContent = "Ready";
+    } else {
+      next.classList.add("locked");
+      $("summary .pill", next).textContent = "Locked";
+    }
+  }
+  updateProgressUI();
+}
+
+/* ---------- Checklists ---------- */
+function initChecklists(){
+  $$(".checklist").forEach(list=>{
+    list.addEventListener("change", e=>{
+      if(e.target.matches('input[type="checkbox"]')){
+        e.target.closest(".check").classList.toggle("done", e.target.checked);
+        saveState(fromDOM());
+        evalLocks();
+      }
+    });
+  });
+}
+
+/* ---------- Reset ---------- */
+$("#resetProgress").addEventListener("click", ()=>{
+  localStorage.removeItem(STORAGE.progress);
+  localStorage.removeItem(STORAGE.quiz);
+  $$(".checklist input").forEach(cb=>{ cb.checked=false; cb.closest(".check").classList.remove("done"); });
+  $("#quizWrap").innerHTML = "";
+  $("#quizResult").style.display = "none";
+  $("#awards").style.display = "none";
+  initQuiz();
+  evalLocks();
+  modules.slice(1).forEach(id=>document.getElementById(id).classList.add("locked"));
+  $("summary .pill", $("#m2")).textContent = "Locked";
+});
+
+/* ---------- Copy shortcut buttons ---------- */
+$$('[data-copy]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    navigator.clipboard.writeText(btn.getAttribute('data-copy'));
+    const t = btn.textContent;
+    btn.textContent = "Copied ✓";
+    setTimeout(()=>btn.textContent = t, 1200);
+  });
+});
+
+/* ---------- Quiz ---------- */
+const QUESTIONS = [
+  { q: "Which shortcut opens Screenshot for screen recording?", opts: ["⌘ + Shift + 4", "⌘ + Shift + 5", "⌘ + Space", "Control + R"], a: 1 },
+  { q: "A three-finger swipe typically…", opts: ["Scrolls the page", "Zooms the screen", "Switches between full-screen apps / desktops", "Opens Spotlight"], a: 2 },
+  { q: "Apple Classroom lets you…", opts: ["Mark work automatically", "Guide learning: view screens, open apps, lock, and share resources", "Replace your MIS", "Grade essays with AI"], a: 1 },
+  { q: "Apple Intelligence helps privacy by…", opts: ["Sending everything to public clouds", "On-device processing by default, Private Cloud Compute when needed", "Storing data indefinitely", "Disabling AI features entirely"], a: 1 },
+  { q: "PICRAT encourages aiming for…", opts: ["Replacement / Passive uses", "Less technology overall", "Transformation / Creative uses when appropriate", "Only teacher-centred delivery"], a: 2 }
+];
+
+function initQuiz(){
+  const saved = JSON.parse(localStorage.getItem(STORAGE.quiz)||"{}");
+  const wrap = $("#quizWrap"); wrap.innerHTML = "";
+  QUESTIONS.forEach((item, idx)=>{
+    const q = document.createElement("div"); q.className="q";
+    q.innerHTML = `<h4>Q${idx+1}. ${item.q}</h4>`+
+      item.opts.map((t,i)=>`<label class="opt"><input type="radio" name="q${idx}" value="${i}" ${saved["q"+idx]==i?"checked":""}/> ${t}</label>`).join("");
+    wrap.appendChild(q);
+  });
+  updateSubmitState();
+}
+function updateSubmitState(){
+  const answered = QUESTIONS.every((_,i)=>$$(`input[name="q${i}"]:checked`).length>0);
+  $("#submitQuiz").disabled = !answered;
+}
+document.addEventListener("change", e=>{
+  if(e.target.matches('.quiz input[type="radio"]')){
+    const saved = JSON.parse(localStorage.getItem(STORAGE.quiz)||"{}");
+    saved[e.target.name] = parseInt(e.target.value,10);
+    localStorage.setItem(STORAGE.quiz, JSON.stringify(saved));
+    updateSubmitState();
+  }
+});
+$("#resetQuiz").addEventListener("click", ()=>{
+  localStorage.removeItem(STORAGE.quiz);
+  initQuiz();
+  $("#quizResult").style.display = "none";
+  $("#awards").style.display = "none";
+  const s = loadState(); s.quizPassed=false; saveState(s); updateProgressUI();
+});
+$("#submitQuiz").addEventListener("click", ()=>{
+  const answers = QUESTIONS.map((_,i)=>parseInt(($$(`input[name="q${i}"]:checked`)[0]||{}).value,10));
+  let score = 0;
+  answers.forEach((v,i)=>{
+    const qDiv = $$(".q")[i]; qDiv.classList.remove("correct","wrong");
+    if(v===QUESTIONS[i].a){ score++; qDiv.classList.add("correct"); } else { qDiv.classList.add("wrong"); }
+  });
+  const pass = score>=4; // >=4/5 unlocks
+  const result = $("#quizResult");
+  result.className = "result " + (pass? "pass":"fail");
+  result.style.display = "block";
+  result.innerHTML = pass
+    ? `<strong>Great work!</strong> You scored <span class="pill" style="background:#e9f7ef;color:#0a6"> ${score}/5 </span>. Your certificate and badge are ready below.`
+    : `You scored <strong>${score}/5</strong>. Aim for 4 or 5 to unlock the certificate and badge.`;
+
+  const s = loadState(); s.quizPassed = pass; saveState(s);
+  updateProgressUI();
+
+  if(pass){ $("#awards").style.display = "grid"; drawCertificate(score); drawBadge(score); }
+  else { $("#awards").style.display = "none"; }
+});
+
+/* ---------- Certificate & Badge ---------- */
+function drawCertificate(score){
+  const c = document.getElementById("certCanvas");
+  const ctx = c.getContext("2d");
+  const g = ctx.createLinearGradient(0,0,c.width, c.height);
+  g.addColorStop(0, "#ecf3ff"); g.addColorStop(1, "#fdfbff");
+  ctx.fillStyle = g; ctx.fillRect(0,0,c.width,c.height);
+  ctx.strokeStyle="#c7d3e6"; ctx.lineWidth=6; roundRect(ctx,20,20,c.width-40,c.height-40,30); ctx.stroke();
+  ctx.fillStyle="#0A66C2"; ctx.font="bold 42px Inter, Arial"; ctx.fillText("Certificate of Completion", 80, 120);
+  ctx.fillStyle="#24313f"; ctx.font="24px Inter, Arial"; ctx.fillText("Teacher MacBook Onboarding — Google Workspace", 80, 160);
+  ctx.fillStyle="#4a5a6a"; ctx.font="20px Inter, Arial";
+  const ukDate = new Date().toLocaleDateString("en-GB",{day:"2-digit", month:"short", year:"numeric"});
+  ctx.fillText(`Awarded on ${ukDate}`, 80, 200);
+  ctx.fillStyle="#1b1f23"; ctx.font="22px Inter, Arial";
+  wrapText(ctx,"Completed onboarding including PICRAT pedagogy, Apple Classroom, Apple Intelligence, and Mac + Google Workspace workflows.",80, 260, 840, 30);
+  drawPill(ctx, 80, 360, `Score: ${score}/5`, "#2ea44f", "#ffffff");
+  ctx.fillStyle="#6a737d"; ctx.font="18px Inter, Arial"; ctx.fillText("Digital Learning Team • Cognita Schools", 80, 430);
+  const sg = ctx.createLinearGradient(80,500,920,560); sg.addColorStop(0,"#f7f0ff"); sg.addColorStop(1,"#e8f0ff");
+  ctx.fillStyle = sg; roundRect(ctx,80,500,840,60,12,true,false);
+  ctx.fillStyle="#0A66C2"; ctx.font="bold 22px Inter, Arial"; ctx.fillText("Make Every Click Count • Purposeful • Inclusive • Creative", 100, 540);
+}
+function drawPill(ctx, x,y, text, bg, fg){ ctx.fillStyle=bg; roundRect(ctx,x,y,220,40,20,true,false); ctx.fillStyle=fg; ctx.font="bold 18px Inter, Arial"; ctx.fillText(text, x+16, y+26); }
+function roundRect(ctx, x,y,w,h,r, fill=true, stroke=true){
+  ctx.beginPath(); ctx.moveTo(x+r, y);
+  ctx.arcTo(x+w, y, x+w, y+h, r); ctx.arcTo(x+w, y+h, x, y+h, r);
+  ctx.arcTo(x, y+h, x, y, r); ctx.arcTo(x, y, x+w, y, r);
+  ctx.closePath(); if(fill) ctx.fill(); if(stroke) ctx.stroke();
+}
+function wrapText(ctx, text, x, y, maxWidth, lineHeight){
+  const words=text.split(" "); let line="";
+  for(let n=0; n<words.length; n++){
+    const test = line + words[n] + " ";
+    if(ctx.measureText(test).width > maxWidth){ ctx.fillText(line, x, y); y += lineHeight; line = words[n] + " "; }
+    else { line = test; }
+  } ctx.fillText(line, x, y);
+}
+function drawBadge(score){
+  const c = document.getElementById("badgeCanvas");
+  const ctx = c.getContext("2d");
+  const W=c.width, H=c.height, CX=W/2, CY=H/2;
+
+  // Gradient ring
+  const rg = ctx.createRadialGradient(CX, CY, 80, CX, CY, 380);
+  rg.addColorStop(0, "#3b2a82"); rg.addColorStop(1, "#0A66C2");
+  ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(CX,CY,360,0,Math.PI*2); ctx.fill();
+
+  // White inner
+  ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(CX,CY,280,0,Math.PI*2); ctx.fill();
+
+  // Laurels
+  ctx.strokeStyle = "#d4af37"; ctx.lineWidth = 6;
+  ctx.beginPath(); ctx.arc(CX-100,CY+20,160,Math.PI*0.6,Math.PI*1.2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(CX+100,CY+20,160,Math.PI*-0.2,Math.PI*0.8); ctx.stroke();
+
+  // Titles
+  ctx.fillStyle = "#0A2C66"; ctx.font = "bold 44px Inter, Arial"; center(ctx, "COGNITA SCHOOLS", CX, CY-60);
+  ctx.fillStyle = "#3b2a82"; ctx.font = "600 34px Inter, Arial"; center(ctx, "Digital Excellence Badge", CX, CY-10);
+  ctx.fillStyle = "#1b1f23"; ctx.font = "700 28px Inter, Arial"; center(ctx, "Mac + Google Workspace Specialist", CX, CY+40);
+
+  // Bottom pill (achievement)
+  ctx.fillStyle = "#0A66C2"; roundRect(ctx, CX-180, CY+120, 360, 60, 20, true, false);
+  ctx.fillStyle = "#fff"; ctx.font = "bold 28px Inter, Arial"; center(ctx, `Achievement: ${score}/5`, CX, CY+160);
+}
+function center(ctx, text, x, y){ const w = ctx.measureText(text).width; ctx.fillText(text, x - w/2, y); }
+
+/* ---------- Downloads ---------- */
+function downloadCanvas(id, name){
+  const a = document.createElement("a");
+  a.download = name; a.href = document.getElementById(id).toDataURL("image/png"); a.click();
+}
+$("#dlCert")?.addEventListener("click", ()=>downloadCanvas("certCanvas","Teacher-Onboarding-Certificate.png"));
+$("#dlBadge")?.addEventListener("click", ()=>downloadCanvas("badgeCanvas","Cognita-Digital-Excellence-Badge.png"));
+
+/* ---------- Boot ---------- */
+document.addEventListener("DOMContentLoaded", ()=>{
+  toDOM(loadState());
+  initChecklists();
+  evalLocks();
+  initQuiz();
+  updateProgressUI();
+});
+</script>
+</body>
+</html>
